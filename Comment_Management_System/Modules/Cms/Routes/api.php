@@ -14,6 +14,9 @@ Route::prefix('cms')->name('cms.')->group(function (): void {
     Route::put('pages/{page}', [PageController::class, 'update']);
     Route::delete('pages/{page}', [PageController::class, 'destroy']);
 
+    // Comments - all comments endpoint
+    Route::get('comments', [CommentController::class, 'getAll']);
+
     Route::get('pages/{page}/comments', [CommentController::class, 'index']);
     Route::post('pages/{page}/comments', [CommentController::class, 'store'])
         ->middleware(SpamDetectionMiddleware::class);

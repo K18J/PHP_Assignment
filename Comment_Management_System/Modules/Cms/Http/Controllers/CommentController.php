@@ -25,6 +25,15 @@ class CommentController
         return response()->json(CommentResource::collection($items));
     }
 
+    public function getAll(Request $request): JsonResponse
+    {
+        $approvedOnly = $request->boolean('approved_only', false);
+
+        $items = $this->comments->listAll(approvedOnly: $approvedOnly);
+
+        return response()->json(CommentResource::collection($items));
+    }
+
     public function store(CommentRequest $request, int $page): JsonResponse
     {
         $data = $request->validated();

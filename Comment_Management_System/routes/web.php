@@ -15,3 +15,8 @@ Route::get('/comments-demo', function () {
 Route::get('/comments-dashboard', function () {
     return view('comments-dashboard');
 });
+
+// View all comments page
+Route::get('/all-comments', function () {
+    return view('all-comments');
+});

@@ -41,6 +41,23 @@ class CommentRepository
         });
     }
 
+    public function listAll(bool $approvedOnly = false)
+    {
+        $cacheKey = 'comments:all:' . ($approvedOnly ? 'approved' : 'all');
+
+        return Cache::remember($cacheKey, $this->ttl, function () use ($approvedOnly) {
+            $query = Comment::query()
+                ->with(['author', 'page', 'replies.author'])
+                ->orderBy('created_at', 'desc');
+
+            if ($approvedOnly) {
+                $query->approved();
+            }
+
+            return $query->get();
+        });
+    }
+
     public function find(int $id): ?Comment
     {
         $cacheKey = "comments:{$id}";
@@ -108,6 +125,8 @@ class CommentRepository
     {
         Cache::forget($this->cacheKey($pageId, 'approved'));
         Cache::forget($this->cacheKey($pageId, 'all'));
+        Cache::forget('comments:all:approved');
+        Cache::forget('comments:all:all');
     }
 
     private function cacheKey(int $pageId, string $suffix): string

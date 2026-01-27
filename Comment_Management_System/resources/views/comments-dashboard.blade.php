@@ -46,7 +46,7 @@
             <input id="createUserId" type="number" min="1">
             <label>Parent ID (optional)</label>
             <input id="createParentId" type="number" min="1">
-            <button onclick="createComment()">POST /pages/{page}/comments</button>
+            <button onclick="createCmsComment()">POST /pages/{page}/comments</button>
         </div>
 
         <div class="card">
@@ -155,7 +155,7 @@
             if (result.ok) renderTable(result.body);
         }
 
-        async function createComment() {
+        async function createCmsComment() {
             const pageId = document.getElementById('createPageId').value || 1;
             const content = document.getElementById('createContent').value;
             const parentId = document.getElementById('createParentId').value || null;

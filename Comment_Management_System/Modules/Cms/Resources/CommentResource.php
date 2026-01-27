@@ -29,6 +29,12 @@ class CommentResource extends JsonResource
                     'email' => $this->author->email,
                 ];
             }),
+            'page' => $this->whenLoaded('page', function () {
+                return [
+                    'id' => $this->page->id,
+                    'title' => $this->page->title,
+                ];
+            }),
             'replies' => CommentResource::collection($this->whenLoaded('replies')),
         ];
     }
