@@ -4,9 +4,6 @@ namespace Insurance\ValueObjects;
 
 use InvalidArgumentException;
 
-/**
- * Immutable Money value object storing minor units to preserve precision.
- */
 class Money
 {
     private int $amount;
@@ -89,4 +86,3 @@ class Money
         }
     }
 }
-

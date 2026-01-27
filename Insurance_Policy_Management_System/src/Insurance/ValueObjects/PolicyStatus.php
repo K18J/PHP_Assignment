@@ -73,4 +73,3 @@ class PolicyStatus
         return $this->value;
     }
 }
-

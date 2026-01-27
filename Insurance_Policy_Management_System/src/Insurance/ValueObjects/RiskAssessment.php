@@ -32,7 +32,6 @@ class RiskAssessment
 
     public function multiplier(): float
     {
-        // Risk score expressed as percentage above base rate.
         return 1 + $this->baseRateAdjustment + ($this->riskScore / 100);
     }
 }

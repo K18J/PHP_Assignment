@@ -15,10 +15,10 @@ class VehiclePremiumCalculator implements PremiumCalculatorInterface
         $vehicleValue = (float) ($attributes['vehicle_value'] ?? 0);
         $safetyScore = (float) ($attributes['safety_score'] ?? 0);
 
-        $baseRate = max(0.03, 0.05 - ($safetyScore / 1000)); // safer vehicles pay less
+        $baseRate = max(0.03, 0.05 - ($safetyScore / 1000)); 
         $coveragePortion = $data->getCoverageAmount()->percentage($baseRate * 100);
 
-        $valuePortion = Money::fromFloat($vehicleValue * 0.01); // 1% of declared value
+        $valuePortion = Money::fromFloat($vehicleValue * 0.01); 
 
         return $coveragePortion->add($valuePortion);
     }

@@ -128,7 +128,6 @@ echo '<button type="submit" style="margin-top:12px;padding:8px 12px;">Run Demo</
 echo '<div class="note">Change fields then click Run Demo to see updated premiums, endorsements, and pro-rata cancellation. Type-specific fields show only for the chosen policy.</div>';
 echo '</form>';
 
-// Build policy from input
 $start = new \DateTimeImmutable($startDate);
 $end = new \DateTimeImmutable($endDate);
 $attributes = [];
@@ -230,4 +229,3 @@ echo '<div class="footer">Demo complete.</div>';
 })();
 </script>
 </body></html>
-

@@ -26,4 +26,3 @@ class ValidationResult
         return $this->errors;
     }
 }
-
