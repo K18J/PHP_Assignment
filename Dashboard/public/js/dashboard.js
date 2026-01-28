@@ -768,7 +768,7 @@ class Dashboard {
             columns: [
                 { key: 'id', label: 'ID', sortable: true },
                 { key: 'name', label: 'Name', sortable: true },
-                { key: 'email', label: 'Email', sortable: true },
+                { key: 'category', label: 'Category', sortable: true },
                 { 
                     key: 'status', 
                     label: 'Status', 
@@ -1027,7 +1027,6 @@ class Dashboard {
     }
 }
 
-// Initialize dashboard when script loads
 const dashboard = new Dashboard();
 
 // Cleanup on page unload

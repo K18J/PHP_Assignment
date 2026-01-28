@@ -2,183 +2,128 @@
 
 namespace App\Repositories;
 
+use App\Models\Asset;
 use App\Repositories\Contracts\DashboardRepositoryInterface;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
     public function getStats(): array
     {
-        usleep(500000); // 0.5 seconds
+        usleep(300000);
 
-        // Mock data - Replace with actual database queries
+        $totalAssets = Asset::count();
+        $totalValue = (float) Asset::sum('value');
+        $activeCount = Asset::where('status', 'active')->count();
+        $growth = $totalAssets > 0 ? round(($activeCount / $totalAssets) * 100, 1) : 0;
+
         return [
-            'total_users' => 12543,
+            'total_users' => $totalAssets,
             'users_trend' => 'up',
-            'users_trend_value' => '+12.5%',
-            'total_orders' => 3421,
+            'users_trend_value' => '+0%',
+            'total_orders' => $activeCount,
             'orders_trend' => 'up',
-            'orders_trend_value' => '+8.3%',
-            'revenue' => 125430.50,
+            'orders_trend_value' => '+0%',
+            'revenue' => $totalValue,
             'revenue_trend' => 'up',
-            'revenue_trend_value' => '+15.2%',
-            'growth' => 23.5,
+            'revenue_trend_value' => '+0%',
+            'growth' => $growth,
             'growth_trend' => 'up',
-            'growth_trend_value' => '+5.1%',
+            'growth_trend_value' => '+0%',
         ];
     }
 
     public function getTableData(): array
     {
-        // Simulate API delay
-        usleep(300000); // 0.3 seconds
+        usleep(200000);
 
-        // Mock data - Replace with actual database queries
-        return [
-            [
-                'id' => 1,
-                'name' => 'John Doe',
-                'email' => 'john.doe@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-15T10:30:00Z'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Jane Smith',
-                'email' => 'jane.smith@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-16T11:20:00Z'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Bob Johnson',
-                'email' => 'bob.johnson@example.com',
-                'status' => 'inactive',
-                'created_at' => '2024-01-17T09:15:00Z'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Alice Williams',
-                'email' => 'alice.williams@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-18T14:45:00Z'
-            ],
-            [
-                'id' => 5,
-                'name' => 'Charlie Brown',
-                'email' => 'charlie.brown@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-19T16:20:00Z'
-            ],
-            [
-                'id' => 6,
-                'name' => 'Diana Prince',
-                'email' => 'diana.prince@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-20T08:30:00Z'
-            ],
-            [
-                'id' => 7,
-                'name' => 'Edward Norton',
-                'email' => 'edward.norton@example.com',
-                'status' => 'inactive',
-                'created_at' => '2024-01-21T12:10:00Z'
-            ],
-            [
-                'id' => 8,
-                'name' => 'Fiona Apple',
-                'email' => 'fiona.apple@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-22T15:25:00Z'
-            ],
-            [
-                'id' => 9,
-                'name' => 'George Clooney',
-                'email' => 'george.clooney@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-23T10:50:00Z'
-            ],
-            [
-                'id' => 10,
-                'name' => 'Helen Mirren',
-                'email' => 'helen.mirren@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-24T13:40:00Z'
-            ],
-            [
-                'id' => 11,
-                'name' => 'Ian McKellen',
-                'email' => 'ian.mckellen@example.com',
-                'status' => 'inactive',
-                'created_at' => '2024-01-25T11:15:00Z'
-            ],
-            [
-                'id' => 12,
-                'name' => 'Julia Roberts',
-                'email' => 'julia.roberts@example.com',
-                'status' => 'active',
-                'created_at' => '2024-01-26T09:30:00Z'
-            ],
-        ];
+
+        return Asset::with('category')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($asset) {
+                return [
+                    'id' => $asset->id,
+                    'name' => $asset->name,
+                    'category' => $asset->category->name ?? '-',
+                    'status' => $asset->status,
+                    'created_at' => $asset->created_at->toIso8601String(),
+                ];
+            })
+            ->toArray();
     }
 
     public function getChartData(): array
     {
+        usleep(200000);
 
-        usleep(400000); // 0.4 seconds
+        $revenueByCategory = Asset::query()
+            ->selectRaw('category_id, sum(value) as total')
+            ->groupBy('category_id')
+            ->get();
+        $categories = \App\Models\Category::orderBy('name')->get()->keyBy('id');
+        $revenueLabels = [];
+        $revenueData = [];
+        $colors = [
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+        ];
+        $borderColors = [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+        ];
+        $i = 0;
+        foreach ($revenueByCategory as $row) {
+            $cat = $categories->get($row->category_id);
+            $revenueLabels[] = $cat ? $cat->name : 'Unknown';
+            $revenueData[] = (float) $row->total;
+            $i++;
+        }
 
-        // Mock data - Replace with actual database queries
+        $statusCounts = Asset::selectRaw('status, count(*) as count')->groupBy('status')->get();
+        $statusLabels = $statusCounts->pluck('status')->map(function ($s) {
+            return ucfirst($s);
+        })->toArray();
+        $statusData = $statusCounts->pluck('count')->toArray();
+
         return [
             'sales' => [
                 'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 'datasets' => [
                     [
-                        'label' => 'Sales',
-                        'data' => [65, 59, 80, 81, 56, 55, 40, 45, 60, 70, 75, 85],
+                        'label' => 'Assets Value Trend',
+                        'data' => array_fill(0, 12, 0),
                         'borderColor' => 'rgb(75, 192, 192)',
                         'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                         'tension' => 0.4
                     ],
-                    [
-                        'label' => 'Revenue',
-                        'data' => [45, 50, 65, 70, 48, 52, 38, 42, 55, 65, 70, 80],
-                        'borderColor' => 'rgb(255, 99, 132)',
-                        'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                        'tension' => 0.4
-                    ]
                 ]
             ],
             'revenue' => [
-                'labels' => ['Electronics', 'Clothing', 'Food', 'Books', 'Toys', 'Sports'],
+                'labels' => $revenueLabels ?: ['No data'],
                 'datasets' => [
                     [
-                        'label' => 'Revenue',
-                        'data' => [45000, 32000, 28000, 15000, 12000, 18000],
-                        'backgroundColor' => [
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(255, 206, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 159, 64, 0.8)'
-                        ],
-                        'borderColor' => [
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
+                        'label' => 'Value by Category',
+                        'data' => $revenueData ?: [0],
+                        'backgroundColor' => array_slice($colors, 0, count($revenueLabels)),
+                        'borderColor' => array_slice($borderColors, 0, count($revenueLabels)),
                         'borderWidth' => 1
                     ]
                 ]
             ],
             'distribution' => [
-                'labels' => ['Active Users', 'Inactive Users', 'Pending Users', 'Suspended Users'],
+                'labels' => $statusLabels ?: ['No data'],
                 'datasets' => [
                     [
-                        'label' => 'User Distribution',
-                        'data' => [65, 20, 10, 5],
+                        'label' => 'Asset Status',
+                        'data' => $statusData ?: [0],
                         'backgroundColor' => [
                             'rgba(40, 167, 69, 0.8)',
                             'rgba(108, 117, 125, 0.8)',
@@ -200,13 +145,7 @@ class DashboardRepository implements DashboardRepositoryInterface
 
     public function deleteTableRow(int $id): bool
     {
-        usleep(200000); // 0.2 seconds
-
-        // Mock deletion - Replace with actual database deletion
-        // In a real application, you would do:
-        // $record = Model::findOrFail($id);
-        // return $record->delete();
-
-        return true;
+        $asset = Asset::find($id);
+        return $asset ? $asset->delete() : false;
     }
 }
