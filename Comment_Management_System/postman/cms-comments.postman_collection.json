@@ -1,0 +1,159 @@
+{
+  "info": {
+    "name": "CMS Comments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List comments for page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/cms/pages/{{page_id}}/comments",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "pages",
+            "{{page_id}}",
+            "comments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create comment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"content\": \"Great article!\",\n  \"parent_id\": null\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/cms/pages/{{page_id}}/comments",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "pages",
+            "{{page_id}}",
+            "comments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update comment",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"content\": \"Updated content\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/cms/comments/{{comment_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "comments",
+            "{{comment_id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete comment",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/cms/comments/{{comment_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "comments",
+            "{{comment_id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Approve comment (admin)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/cms/comments/{{comment_id}}/approve",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "comments",
+            "{{comment_id}}",
+            "approve"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Reject comment (admin)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/cms/comments/{{comment_id}}/reject",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cms",
+            "comments",
+            "{{comment_id}}",
+            "reject"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost"
+    },
+    {
+      "key": "page_id",
+      "value": "1"
+    },
+    {
+      "key": "comment_id",
+      "value": "1"
+    }
+  ]
+}
+
