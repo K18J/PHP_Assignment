@@ -6,7 +6,6 @@ namespace OrderManagement\Entities;
 
 final class Order
 {
-    /** @var OrderItem[] */
     private array $items = [];
 
     public function __construct(
@@ -22,9 +21,6 @@ final class Order
         $this->items[] = $item;
     }
 
-    /**
-     * @return OrderItem[]
-     */
     public function items(): array
     {
         return $this->items;
@@ -35,4 +31,3 @@ final class Order
         return array_reduce($this->items, fn (float $carry, OrderItem $item) => $carry + $item->total(), 0.0);
     }
 }
-

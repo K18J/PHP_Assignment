@@ -286,6 +286,8 @@ function redirectWithMessage(string $page, string $type, string $message): void
     exit;
 }
 
+$assetBase = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/');
+$assetBase = $assetBase === '' || $assetBase === '\\' ? '' : $assetBase . '/';
 ?>
 <!doctype html>
 <html lang="en">
@@ -293,7 +295,7 @@ function redirectWithMessage(string $page, string $type, string $message): void
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Management UI</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($assetBase) ?>assets/style.css">
 </head>
 <body>
 <header class="topbar">
@@ -635,7 +637,6 @@ function redirectWithMessage(string $page, string $type, string $message): void
 <script>
     const products = <?= json_encode(array_values(array_map(fn ($p) => ['id' => (int) $p['id'], 'price' => (float) $p['unit_price']], $products)), JSON_THROW_ON_ERROR); ?>;
 </script>
-<script src="assets/app.js"></script>
+<script src="<?= htmlspecialchars($assetBase) ?>assets/app.js"></script>
 </body>
 </html>
-

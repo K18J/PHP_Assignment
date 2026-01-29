@@ -19,4 +19,3 @@ final class OrderItem
         return $this->quantity * $this->unitPrice;
     }
 }
-

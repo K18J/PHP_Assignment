@@ -122,4 +122,3 @@ INSERT INTO products (sku, name, unit_price) VALUES
 INSERT INTO inventory (product_id, warehouse_id, quantity_on_hand, quantity_reserved)
 SELECT p.id, w.id, 100, 0
 FROM products p CROSS JOIN warehouses w;
-

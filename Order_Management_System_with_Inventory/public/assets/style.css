@@ -69,6 +69,17 @@ a {
     margin: 0;
 }
 
+.demo-output {
+    margin: 0;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
 .muted {
     color: #6b7280;
 }
@@ -291,5 +302,3 @@ button:hover {
         padding-top: 8px;
     }
 }
-
-

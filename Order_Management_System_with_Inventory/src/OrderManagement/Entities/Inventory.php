@@ -21,4 +21,3 @@ final class Inventory
         return $this->quantityOnHand - $this->quantityReserved;
     }
 }
-

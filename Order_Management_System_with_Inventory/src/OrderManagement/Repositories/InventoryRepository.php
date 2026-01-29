@@ -89,7 +89,7 @@ final class InventoryRepository implements InventoryRepositoryInterface
             } catch (PDOException $e) {
                 $this->pdo->rollBack();
                 if ($this->isDeadlock($e) && $attempt < self::MAX_RETRIES) {
-                    usleep(200_000 * $attempt); // backoff
+                    usleep(200_000 * $attempt); 
                     continue;
                 }
                 return new ReservationResult(false, null, $e->getMessage());
@@ -319,4 +319,3 @@ final class InventoryRepository implements InventoryRepositoryInterface
         return in_array($code, self::DEADLOCK_CODES, true);
     }
 }
-

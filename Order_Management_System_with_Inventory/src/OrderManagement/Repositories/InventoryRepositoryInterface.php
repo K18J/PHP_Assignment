@@ -22,4 +22,3 @@ interface InventoryRepositoryInterface
 
     public function adjustStock(StockAdjustment $adjustment): void;
 }
-

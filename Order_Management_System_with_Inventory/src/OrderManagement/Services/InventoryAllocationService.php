@@ -27,9 +27,6 @@ final class InventoryAllocationService
         $this->inventoryRepository->releaseReservation($reservationId);
     }
 
-    /**
-     * Marks expired reservations and frees the reserved quantity.
-     */
     public function expireReservations(): void
     {
         $this->pdo->beginTransaction();
@@ -52,4 +49,3 @@ final class InventoryAllocationService
         }
     }
 }
-

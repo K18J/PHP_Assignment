@@ -21,9 +21,6 @@ final class OrderService
     ) {
     }
 
-    /**
-     * Create an order and persist items.
-     */
     public function createOrder(Order $order): int
     {
         $orderId = $this->orderRepository->create($order);
@@ -33,9 +30,6 @@ final class OrderService
         return $orderId;
     }
 
-    /**
-     * Reserve inventory for each order item. If any reservation fails, order is cancelled.
-     */
     public function reserveInventoryForOrder(int $orderId, Order $order): void
     {
         foreach ($order->items() as $item) {
@@ -57,9 +51,6 @@ final class OrderService
         $this->orderRepository->updateStatus($orderId, 'reserved');
     }
 
-    /**
-     * Marks an order as fulfilled (no shipment logic included).
-     */
     public function fulfill(int $orderId, bool $partial = false): void
     {
         $this->orderRepository->updateStatus(
@@ -68,4 +59,3 @@ final class OrderService
         );
     }
 }
-

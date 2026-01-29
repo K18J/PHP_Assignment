@@ -11,11 +11,6 @@ final class ConnectionFactory
 {
     private static ?PDO $pdo = null;
 
-    /**
-        * Create (or reuse) a PDO connection configured for this project.
-        *
-        * @param string $configPath Path to config/database.php
-        */
     public static function make(string $configPath): PDO
     {
         if (self::$pdo !== null) {
@@ -26,7 +21,6 @@ final class ConnectionFactory
             throw new RuntimeException("Database config not found at {$configPath}");
         }
 
-        /** @var array{dsn:string,user:string,password:string,options:array} $config */
         $config = require $configPath;
 
         self::$pdo = new PDO(
@@ -39,4 +33,3 @@ final class ConnectionFactory
         return self::$pdo;
     }
 }
-
