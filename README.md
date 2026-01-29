@@ -1,24 +1,19 @@
-# Comment Management System (CMS)
+# Interactive Dashboard
 
-A robust and modular comment management system built with Laravel 12. This application provides a complete solution for managing comments on web pages with features like spam detection, admin approval workflows, and a RESTful API.
+A responsive, real-time dashboard built with Laravel, Bootstrap 4, and JavaScript components following SOLID principles.
 
-## 🚀 Features
+## Features
 
-### Core Functionality
-- **Page Management**: Create, read, update, and delete pages
-- **Comment Management**: Full CRUD operations for comments
-- **Nested Comments**: Support for threaded comment discussions
-- **Comment Moderation**: Approve/reject comments with admin privileges
-- **Spam Detection**: Automatic spam filtering using middleware
-- **Admin Dashboard**: Web-based interface for managing comments
-- **RESTful API**: Complete API for integration with other systems
+- **Responsive Layout**: Bootstrap 4 grid system with mobile-first design
+- **StatCard Component**: Reusable metric cards with loading states and trend indicators
+- **DataTable Component**: Full-featured table with sorting, filtering, and pagination
+- **ChartWidget Component**: Chart.js integration for various chart types
+- **Real-time Updates**: Auto-refresh functionality with configurable intervals
+- **Error Handling**: Comprehensive error states and user feedback
+- **API Integration**: Axios-based API communication with Laravel backend
+- **SOLID Principles**: Clean architecture with separation of concerns
 
-### Technical Features
-- **Modular Architecture**: CMS module organized separately from core application
-- **Repository Pattern**: Clean separation of data access logic
-- **Middleware Protection**: Spam detection and admin authentication
-- **Database Seeding**: Sample data for testing and development
-- **API Documentation**: Postman collection included
 
-<img width="1311" height="442" alt="image" src="https://github.com/user-attachments/assets/7b10e0eb-2744-49fe-8259-2ffa2d43a076" />
-<img width="1608" height="896" alt="image" src="https://github.com/user-attachments/assets/e5c48c3d-4aa6-4e06-a28e-0a5eda177761" />
+<img width="1350" height="513" alt="image" src="https://github.com/user-attachments/assets/484a35e7-46cf-4181-b8e6-9ee6b26acef0" />
+<img width="1348" height="177" alt="image" src="https://github.com/user-attachments/assets/abc56cd5-70f8-463d-ace2-32886c42d5ca" />
+<img width="289" height="320" alt="image" src="https://github.com/user-attachments/assets/1419500b-4cdd-4378-b10e-d5a51c06dcbc" />
